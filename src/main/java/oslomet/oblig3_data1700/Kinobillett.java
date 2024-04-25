@@ -5,10 +5,10 @@ public class Kinobillett {
     private int antall;
     private String fornavn;
     private String etternavn;
-    private int tlfnr;
+    private String tlfnr;
     private String epost;
 
-    public Kinobillett(String film,int antall,String fornavn,String etternavn,int tlfnr, String epost){
+    public Kinobillett(String film,int antall,String fornavn,String etternavn,String tlfnr, String epost){
         this.film=film;
         this.antall=antall;
         this.fornavn=fornavn;
@@ -36,7 +36,7 @@ public class Kinobillett {
         return etternavn;
     }
 
-    public int getTlfnr() {
+    public String getTlfnr() {
         return tlfnr;
     }
 
@@ -60,7 +60,7 @@ public class Kinobillett {
         this.etternavn = etternavn;
     }
 
-    public void setTlfnr(int tlfnr) {
+    public void setTlfnr(String tlfnr) {
         this.tlfnr = tlfnr;
     }
 
