@@ -1,60 +1,109 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Title</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="validering.js"></script>
+    <title>Kinobilletter</title>
     <meta charset="utf-8">
     <style>
-        body{
-            display: block;
+        #antall {
+            width: 60px;
+        }
+        .table th, .table td {
+            text-align: center;
+            vertical-align: middle;
+        }
+        .table-responsive {
+            overflow-x: auto;
         }
     </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
 <body>
 
-<h1>Bestilling av kinobilletter</h1>
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h1 class="mb-0">Bestilling av kinobilletter</h1>
+                </div>
+                <div class="card-body">
+                    <div class="form-group">
+                        <label for="film">Velg film:</label>
+                        <select class="form-control" id="film" name="film">
+                            <option value="Velg film her">Velg film her</option>
+                            <option value="Titanic">Titanic</option>
+                            <option value="Se7en">Se7en</option>
+                            <option value="Harry Potter and the Philosopher's Stone">Harry Potter and the Philosopher's Stone</option>
+                            <option value="Despicable Me">Despicable Me</option>
+                        </select>
+                        <span id="feilFilm" class="text-danger"></span>
+                    </div>
 
-<label for="film">Velg film:</label>
-<select id="film" name="film">
-    <option value="">Velg film her</option>
-    <option value="Titanic">Titanic</option>
-    <option value="Se7en">Se7en</option>
-    <option value="Harry Potter and the Philosopher's Stone">Harry Potter and the Philosopher's Stone</option>
-    <option value="Despicable Me">Despicable Me</option>
-</select>
+                    <div class="form-group">
+                        <label for="antall">Antall</label>
+                        <input type="text" class="form-control" id="antall" name="antall" onchange="validerAntall(this.value)">
+                        <span id="feilAntall" class="text-danger"></span>
+                    </div>
 
-<br><br>
+                    <div class="form-group">
+                        <label for="fornavn">Fornavn:</label>
+                        <input type="text" class="form-control" id="fornavn" name="fornavn" onchange="validerFornavn(this.value)">
+                        <span id="feilFornavn" class="text-danger"></span>
+                    </div>
 
-<label for="antall">Antall</label>
-<input type="number" id="antall" name="antall">
+                    <div class="form-group">
+                        <label for="etternavn">Etternavn:</label>
+                        <input type="text" class="form-control" id="etternavn" name="etternavn" onchange="validerEtternavn(this.value)">
+                        <span id="feilEtternavn" class="text-danger"></span>
+                    </div>
 
-<br><br>
+                    <div class="form-group">
+                        <label for="tlfnr">Telefonnr:</label>
+                        <input type="text" class="form-control" id="tlfnr" name="tlfnr" onchange="validerTlfnr(this.value)">
+                        <span id="feilTlf" class="text-danger"></span>
+                    </div>
 
-<label for="fornavn">Fornavn:</label>
-<input type="text" id="fornavn" name="fornavn">
+                    <div class="form-group">
+                        <label for="epost">Epost:</label>
+                        <input type="text" class="form-control" id="epost" name="epost" onchange="validerEpost(this.value)">
+                        <span id="feilEpost" class="text-danger"></span>
+                    </div>
 
-<br><br>
+                    <button class="btn btn-primary btn-block" onclick="validerOgKjopBillett()" id="kjop">Kjøp billett</button>
+                </div>
+            </div>
+        </div>
 
-<label for="etternavn">Etternavn:</label>
-<input type="text" id="etternavn" name="etternavn">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h2 class="mb-0">Alle billetter</h2>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead>
+                            <tr>
+                                <th>Film</th>
+                                <th>Antall</th>
+                                <th>Fornavn</th>
+                                <th>Etternavn</th>
+                                <th>Telefonnr</th>
+                                <th>Epost</th>
+                            </tr>
+                            </thead>
+                            <tbody id="Billetter"></tbody>
+                        </table>
+                    </div>
+                    <button class="btn btn-danger btn-block" onclick="slettBillett()" id="slett">Slett alle billettene</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-<br><br>
-
-<label for="tlfnr">Telefonnr:</label>
-<input type="text" id="tlfnr" name="tlfnr">
-
-<br><br>
-
-<label for="epost">Epost:</label>
-<input type="text" id="epost" name="epost">
-
-<br><br>
-
-<button id="kjop">Kjøp billett</button>
-
-<h2>Alle billetter</h2>
-<div id="Billetter"></div>
-
-<button id="slett">Slett alle billettene</button>
 <script src="oblig1.js"></script>
 </body>
 </html>

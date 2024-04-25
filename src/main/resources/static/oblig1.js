@@ -1,53 +1,53 @@
-let filmEl=document.querySelector("#film")
-let antallEl=document.querySelector("#antall")
-let fornavnEl=document.querySelector("#fornavn")
-let etternavnEl=document.querySelector("#etternavn")
-let tlfEl=document.querySelector("#tlfnr")
-let epostEl=document.querySelector("#epost")
-let kjopEl=document.querySelector("#kjop")
-let slettEl=document.querySelector("#slett")
-let bilettarray=[]
-
+function validerOgKjopBillett(){
+    let filmOk=validerFilm($("#film").val())
+    let antallOk=validerAntall($("#antall").val())
+    let fornavnOk=validerFornavn($("#fornavn").val())
+    let etternavnOk=validerEtternavn($("#etternavn").val())
+    let tlfOk=validerTlfnr($("#tlfnr").val())
+    let epostOk=validerEpost($("#epost").val())
+    if(filmOk&&antallOk&&fornavnOk&&etternavnOk&&tlfOk&&epostOk){
+        kjopBillett()
+    }
+}
 
 function kjopBillett() {
-    if (filmEl.value === "Velg film her" || antallEl.value === "" ||parseInt(antallEl.value)<0 || fornavnEl.value === "" || etternavnEl.value === "" || sjekkEmail(epostEl.value)===false||tlfEl.value===""||tlfEl.value.length!==8||isNaN(tlfEl.value)===true){
-        alert("Noen av feltene har ikke gyldig informasjon, prøv igjen")
-        filmEl.value=""
-        antallEl.value=""
-        fornavnEl.value=""
-        etternavnEl.value=""
-        tlfEl.value=""
-        epostEl.value=""
-        return;
-    }
-    let obj={"film":filmEl.value,"antallBillett":antallEl.value,"navn":fornavnEl.value+etternavnEl.value,"tlfnr":tlfEl.value,"epost":epostEl.value}
-    bilettarray.push(obj)
-    filmEl.value="Velg film her"
-    antallEl.value=""
-    fornavnEl.value=""
-    etternavnEl.value=""
-    tlfEl.value=""
-    epostEl.value=""
 
-    let ut = "<table><tr>" +
-        "<th>Film</th><th>Antall Billetter</th><th>Navn</th><th>Tlfnr</th><th>Epost</th>" +"</tr>"
-    for (let i = 0; i < bilettarray.length; i++) {
+    const billett = {
+        "film": $("#film").val(),
+        "antall": ($("#antall").val()),
+        "fornavn": $("#fornavn").val(),
+        "etternavn":$("#etternavn").val(),
+        "tlfnr": $("#tlfnr").val(),
+        "epost": $("#epost").val()
+    }
+    $.post("/lagre", billett, function () {
+        hentAlle();
+    });
+    $("#film").val("Velg film her")
+    $("#antall").val("")
+    $("#fornavn").val("")
+    $("#etternavn").val("")
+    $("#tlfnr").val("")
+    $("#epost").val("")
+}
+function hentAlle() {
+    $.get("/hentAlle",function(data){
+        formaterData(data)
+    });
+}
+function formaterData(biletter){
+    let ut = "<table>"
+    for (let i = 0; i < biletter.length; i++) {
         ut += "<tr>"
-        ut += "<td>" + bilettarray[i].film + "</td><td>" + bilettarray[i].antallBillett + "</td><td>" + bilettarray[i].navn + "</td><td>" + bilettarray[i].tlfnr + "</td><td>" + bilettarray[i].epost+"</td>"
+        ut += "<td>" + biletter[i].film + "</td><td>" + biletter[i].antall + "</td><td>" + biletter[i].fornavn + "</td><td>"+biletter[i].etternavn +"</td><td>"+ biletter[i].tlfnr + "</td><td>" + biletter[i].epost+"</td>"
         ut += "<tr>"
     }
     ut += "</table>"
-    document.getElementById("Billetter").innerHTML=ut
+    $("#Billetter").html(ut)
 }
 
 function slettBillett() {
-    bilettarray=[]
-    document.getElementById("Billetter").innerHTML="";
+    $.get( "/slettAlle", function() {
+        hentAlle();
+    });
 }
-function sjekkEmail(email){
-        return email.includes("@") && email.includes(".");
-}
-kjopEl.addEventListener("click",kjopBillett)
-slettEl.addEventListener("click",slettBillett)
-
-
